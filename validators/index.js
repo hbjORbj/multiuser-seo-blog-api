@@ -9,9 +9,6 @@ exports.signUpValidator = (req, res, next) => {
   // name
   req.check("name", "Enter your name.").notEmpty();
 
-  // username
-  req.check("username", "Enter your username.").notEmpty();
-
   // email
   req.check("email", "Enter your email.").notEmpty();
   req.check("email").isEmail().withMessage("Invalid email address.");
@@ -43,8 +40,9 @@ Log In Validator
 **
 */
 exports.loginValidator = (req, res, next) => {
-  // username
-  req.check("username", "Enter your username.").notEmpty();
+  // email
+  req.check("email", "Enter your email.").notEmpty();
+  req.check("email").isEmail().withMessage("Invalid email address.");
 
   // password
   req.check("password", "Enter your password.").notEmpty();
@@ -74,7 +72,8 @@ Check if user is logged in
 */
 exports.requireLogin = expressJwt({
   // if token is valid, expressJwt appends to the request object
-  // the verified user's id in a key "auth"
+  // the verified user's id in a key "auth" and move to the next middleware
+  // otherwise, it returns authorization error
   secret: process.env.JWT_SECRET,
   algorithms: ["HS256"],
   userProperty: "auth",

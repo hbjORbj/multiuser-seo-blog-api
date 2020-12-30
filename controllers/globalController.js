@@ -51,3 +51,13 @@ exports.login = async (req, res) => {
     return res.status(401).json({ error: "You are not a registered user." });
   }
 };
+
+/* 
+**
+Log out
+**
+*/
+exports.logout = (req, res) => {
+  res.clearCookie("t");
+  return res.json({ message: "You're Signed out!" });
+};
